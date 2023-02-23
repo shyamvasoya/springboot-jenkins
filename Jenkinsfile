@@ -15,6 +15,7 @@ pipeline {
       stage('deploy') {
             steps {
                 echo 'deplying the application'
+                sh 'wrong command'
             }
         }
     }
