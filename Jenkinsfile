@@ -4,7 +4,7 @@ pipeline {
     agent any
     environment {
         NEW_VERSION = '1.3.0'
-        SERVER_CREDENTIALS = credentials('server')
+        // SERVER_CREDENTIALS = credentials('server')
     }
     stages {
         stage('build') {
@@ -28,7 +28,12 @@ pipeline {
             steps {
                 echo 'deplying the application'
                 // sh 'wrong command'
-                sh "${SERVER_CREDENTIALS}"
+                echo "${SERVER_CREDENTIALS}"
+                withCredentials([
+                    usernamePassword(credentials: 'server', usernameVariable : USER, passwordVariable : PWD)
+                ]){
+                    echo "user is ${USER}"
+                }
             }
         }
     }
