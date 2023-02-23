@@ -1,4 +1,4 @@
-CODE_CHANGES = getGitChanges()
+
 
 pipeline {
     agent any
@@ -7,7 +7,7 @@ pipeline {
         stage('build') {
             when{
               expression{
-                  CODE_CHANGES == true
+                  
               }
           }
             steps {
