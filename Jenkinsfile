@@ -2,12 +2,16 @@
 
 pipeline {
     agent any
-
+    environment {
+        NEW_VERSION = '1.3.0'
+        SERVER_CREDENTIALS = credentials('server')
+    }
     stages {
         stage('build') {
             
             steps {
                 echo 'building the application'
+                echo "Software version is ${NEW_VERSION}"
             }
         }
       stage('test') {
@@ -23,7 +27,8 @@ pipeline {
       stage('deploy') {
             steps {
                 echo 'deplying the application'
-                sh 'wrong command'
+                // sh 'wrong command'
+                sh "${SERVER_CREDENTIALS}"
             }
         }
     }
