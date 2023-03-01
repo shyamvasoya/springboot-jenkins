@@ -30,9 +30,9 @@ pipeline {
                 // sh 'wrong command'
                 echo "${SERVER_CREDENTIALS}"
                 withCredentials([
-                    usernamePassword(credentials: 'server', usernameVariable : USER, passwordVariable : PWD)
+                    usernamePassword(credentials: 'docker', usernameVariable : USERNAME, passwordVariable : PASSWORD)
                 ]){
-                    echo "user is ${USER}"
+                    echo "user is ${USERNAME}"
                 }
             }
         }
