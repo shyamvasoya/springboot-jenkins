@@ -27,7 +27,7 @@ pipeline {
                 // sh 'wrong command'
                 //echo "${SERVER_CREDENTIALS}"
                 withCredentials([
-                    usernamePassword(credentials: 'docker', usernameVariable : USERNAME, passwordVariable : PASSWORD)
+                    usernamePassword(credentials: 'docker', usernameVariable : USER, passwordVariable : PWD)
                 ]){
                     //echo "user is ${USERNAME}"
                 }
