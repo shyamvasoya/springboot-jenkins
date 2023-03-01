@@ -29,7 +29,7 @@ pipeline {
                 withCredentials([
                     usernamePassword(credentials: 'docker', usernameVariable : USERNAME, passwordVariable : PASSWORD)
                 ]){
-                    echo "user is ${USERNAME}"
+                    //echo "user is ${USERNAME}"
                 }
             }
         }
