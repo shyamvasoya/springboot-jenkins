@@ -2,24 +2,21 @@
 
 pipeline {
     agent any
-    environment {
-        NEW_VERSION = '1.3.0'
-        SERVER_CREDENTIALS = credentials('server')
-    }
+    
     stages {
         stage('build') {
             
             steps {
                 echo 'building the application'
-                echo "Software version is ${NEW_VERSION}"
+                //echo "Software version is ${NEW_VERSION}"
             }
         }
       stage('test') {
-          when{
-              expression{
+          //when{
+          //    expression{
                   env.BRANCH_NAME == 'dev'
-              }
-          }
+          //    }
+          //}
             steps {
                 echo 'testing the application'
             }
@@ -28,7 +25,7 @@ pipeline {
             steps {
                 echo 'deplying the application'
                 // sh 'wrong command'
-                echo "${SERVER_CREDENTIALS}"
+                //echo "${SERVER_CREDENTIALS}"
                 withCredentials([
                     usernamePassword(credentials: 'docker', usernameVariable : USERNAME, passwordVariable : PASSWORD)
                 ]){
