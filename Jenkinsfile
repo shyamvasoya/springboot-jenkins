@@ -5,6 +5,11 @@ pipeline {
     environment {
         NEW_VERSION = '1.3'
     }
+
+    parameters {
+        choice(name: 'VERSION', choices:['1','2','3'], description: '')
+        booleanParam(name: 'executeTest', dafaultValue : true, description: '')
+    }
     
     stages {
         stage('build') {
@@ -15,11 +20,11 @@ pipeline {
             }
         }
       stage('test') {
-          //when{  
-          //    expression{
-          //        env.BRANCH_NAME == 'dev'
-          //    }
-          //}
+          when{  
+             expression{
+                 params.executeTest
+             }
+          }
             steps {
                 echo 'testing the application'
             }
