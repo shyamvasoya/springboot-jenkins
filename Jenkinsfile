@@ -2,13 +2,16 @@
 
 pipeline {
     agent any
+    environment {
+        NEW_VERSION = '1.3'
+    }
     
     stages {
         stage('build') {
             
             steps {
                 echo 'building the application'
-                //echo "Software version is ${NEW_VERSION}"
+                echo "Software version is ${NEW_VERSION}"
             }
         }
       stage('test') {
