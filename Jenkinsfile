@@ -12,7 +12,7 @@ pipeline {
             }
         }
       stage('test') {
-          //when{
+          //when{  
           //    expression{
           //        env.BRANCH_NAME == 'dev'
           //    }
@@ -26,12 +26,12 @@ pipeline {
                 echo 'deplying the application'
                 // sh 'wrong command'
                 //echo "${SERVER_CREDENTIALS}"
-                withCredentials([
-                    usernamePassword(credentials: 'docker', usernameVariable : USER, passwordVariable : PWD)
-                ]){
-                    //echo "user is ${USERNAME}"
-                }
-            }
+            //     withCredentials([
+            //         usernamePassword(credentials: 'docker', usernameVariable : USER, passwordVariable : PWD)
+            //     ]){
+            //         //echo "user is ${USERNAME}"
+            //     }
+            // }
         }
     }
     post{
