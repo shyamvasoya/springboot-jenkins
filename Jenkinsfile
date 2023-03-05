@@ -31,7 +31,7 @@ pipeline {
             //     ]){
             //         //echo "user is ${USERNAME}"
             //     }
-            // }
+             }
         }
     }
     post{
