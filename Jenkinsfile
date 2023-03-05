@@ -26,7 +26,7 @@ pipeline {
         }
       stage('deploy') {
             steps {
-                echo 'deplying the application'
+                echo 'deploying the application'
                 // sh 'wrong command'
                 //echo "${SERVER_CREDENTIALS}"
             //     withCredentials([
