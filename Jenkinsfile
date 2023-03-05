@@ -29,11 +29,9 @@ pipeline {
                 echo 'deploying the application'
                 // sh 'wrong command'
                 //echo "${SERVER_CREDENTIALS}"
-            //     withCredentials([
-            //         usernamePassword(credentials: 'docker', usernameVariable : USER, passwordVariable : PWD)
-            //     ]){
-            //         //echo "user is ${USERNAME}"
-            //     }
+                withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
+                    echo "user is ${USERNAME}"
+                }
              }
         }
     }
