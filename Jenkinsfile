@@ -64,7 +64,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
                     // echo "user is ${USERNAME}"
                     // echo "Type is ${Type}"
-                    sh "echo ${PASSWORD} || docker login -u ${USERNAME} --password-stdin"
+                    sh "echo ${PASSWORD} | docker login -u ${USERNAME} --password-stdin"
                     sh 'docker push learnwithparth/spring-boot:2.0'
                 }
                 
