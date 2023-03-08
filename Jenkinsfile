@@ -9,6 +9,10 @@ pipeline {
         booleanParam(name: 'executeTest', defaultValue : true, description: '')
     }
     
+    tools{
+        maven 'maven-3.9.0'
+    }
+
     stages {
         stage('init'){
             steps{
@@ -29,6 +33,8 @@ pipeline {
             steps {
                 echo 'building the application'
                 echo "Software version is ${NEW_VERSION}"
+                sh 'mvn package'
+                sh 'docker build -t learnwithparth/spring-boot:2.0 .'
             }
         }
       stage('test') {
@@ -39,6 +45,7 @@ pipeline {
           }
             steps {
                 echo 'testing the application'
+                sh 'mvn test'
             }
         }
       stage('deploy') {
@@ -48,15 +55,19 @@ pipeline {
             parameters{
                 choice(name: 'Type', choices:['Dev','Test','Deploy'], description: '')
             }
+
         }
             steps {
                 echo 'deploying the application'
                 // sh 'wrong command'
                 //echo "${SERVER_CREDENTIALS}"
                 withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-                    echo "user is ${USERNAME}"
-                    echo "Type is ${Type}"
+                    // echo "user is ${USERNAME}"
+                    // echo "Type is ${Type}"
+                    sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+                    sh 'docker push learnwithparth/spring-boot:2.0'
                 }
+                
              }
         }
     }
