@@ -42,12 +42,20 @@ pipeline {
             }
         }
       stage('deploy') {
+        input{
+            message "Select the environment to deploy"
+            ok "done"
+            parameters{
+                choice(name: 'Type', choices:['Dev','Test','Deploy'], description: '')
+            }
+        }
             steps {
                 echo 'deploying the application'
                 // sh 'wrong command'
                 //echo "${SERVER_CREDENTIALS}"
                 withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
                     echo "user is ${USERNAME}"
+                    echo "Type is ${Type}"
                 }
              }
         }
