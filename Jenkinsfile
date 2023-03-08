@@ -1,5 +1,3 @@
-
-
 pipeline {
     agent any
     environment {
@@ -12,6 +10,20 @@ pipeline {
     }
     
     stages {
+        stage('init'){
+            steps{
+                script{
+                    gv = load "script.groovy"
+                }
+            }
+        }
+        stage('config'){
+            steps{
+                script{
+                    gv.config()
+                }
+            }
+        }
         stage('build') {
             
             steps {
