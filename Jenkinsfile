@@ -5,7 +5,7 @@ pipeline {
     }
 
     parameters {
-        choice(name: 'VERSION', choices:['1','2','3'], description: '')
+        choice(name: 'VERSION', choices:['1','2'], description: '')
         booleanParam(name: 'executeTest', defaultValue : true, description: '')
     }
     
