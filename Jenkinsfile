@@ -34,8 +34,13 @@ pipeline {
                 echo 'building the application'
                 echo "Software version is ${NEW_VERSION}"
                 //sh 'mvn package'
+                
                 sh 'mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.nextMinorVersion}.\\\${parsedVersion.incrementalVersion}\\\${parsedVersion.qualifier?}'
-                sh 'docker build -t learnwithparth/spring-boot:2.2 .'
+                sh 'mvn clean package'
+                def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
+                def version = matcher[0][1]
+                env.IMAGE_NAME = "$version-$BUILD_NUMBER"
+                sh "docker build -t learnwithparth/spring-boot:$IMAGE_NAME ."
             }
         }
       stage('test') {
@@ -66,7 +71,7 @@ pipeline {
                     // echo "user is ${USERNAME}"
                     // echo "Type is ${Type}"
                     sh "echo ${PASSWORD} | docker login -u ${USERNAME} --password-stdin"
-                    sh 'docker push learnwithparth/spring-boot:2.2'
+                    sh "docker push learnwithparth/spring-boot:$IMAGE_NAME"
                 }
                 
              }
