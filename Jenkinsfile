@@ -15,11 +15,17 @@ pipeline {
         stage('test') {
             steps {
                 echo 'Testing the application'
+                sh 'mvn test'
             }
         }
         stage('deploy') {
             steps {
                 echo 'Depoying the application'
+                withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable : 'USERNAME', passwordVariable : 'PASSWORD')]){
+                    sh 'docker build -t learnwithparth/spring-boot:2.1 .'
+                    sh "docker login -u $USERNAME -p $PASSWORD"
+                    sh 'docker push learnwithparth/spring-boot:2.1'
+                }
             }
         }
     }
