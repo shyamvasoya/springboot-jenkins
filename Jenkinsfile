@@ -18,4 +18,15 @@ pipeline {
             }
         }
     }
+    post {
+        success{
+            echo 'This is going to be executed when pipeline will be executed successfully'
+        }
+        failure{
+            echo 'Whenever something goes wrong'
+        }
+        always{
+            echo 'This will be executed always'
+        }
+    }
 }
