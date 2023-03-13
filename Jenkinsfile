@@ -33,7 +33,8 @@ pipeline {
             steps {
                 echo 'building the application'
                 echo "Software version is ${NEW_VERSION}"
-                sh 'mvn package'
+                //sh 'mvn package'
+                sh 'mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.\${parsedVersion.incrementalVersion}\${parsedVersion.qualifier?}'
                 sh 'docker build -t learnwithparth/spring-boot:2.2 .'
             }
         }
