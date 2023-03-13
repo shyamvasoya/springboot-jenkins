@@ -34,7 +34,7 @@ pipeline {
                 echo 'building the application'
                 echo "Software version is ${NEW_VERSION}"
                 sh 'mvn package'
-                sh 'docker build -t learnwithparth/spring-boot:2.0 .'
+                sh 'docker build -t learnwithparth/spring-boot:2.2 .'
             }
         }
       stage('test') {
@@ -65,7 +65,7 @@ pipeline {
                     // echo "user is ${USERNAME}"
                     // echo "Type is ${Type}"
                     sh "echo ${PASSWORD} | docker login -u ${USERNAME} --password-stdin"
-                    sh 'docker push learnwithparth/spring-boot:2.0'
+                    sh 'docker push learnwithparth/spring-boot:2.2'
                 }
                 
              }
