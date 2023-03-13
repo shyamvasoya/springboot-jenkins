@@ -1,11 +1,15 @@
 pipeline {
     agent any
+    tools{
+        //maven 'maven-3.9.0'
+    }
 
     stages {
         stage('build') {
             steps {
                 echo 'Building the application'
-                sh 'wrong command'
+                sh 'mvn package'
+                //sh 'wrong command'
             }
         }
         stage('test') {
