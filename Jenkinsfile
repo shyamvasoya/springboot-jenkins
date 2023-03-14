@@ -31,13 +31,14 @@ pipeline {
         stage('build') {
             
             steps {
-                echo 'building the application'
+                script
+                {echo 'building the application'
                 echo "Software version is ${NEW_VERSION}"
                 sh 'mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.nextMinorVersion}.\\\${parsedVersion.incrementalVersion}\\\${parsedVersion.qualifier?}'
                 sh 'mvn clean package'
                 def version = (readFile('pom.xml') =~ '<version>(.+)</version>')[0][1]
                 env.IMAGE_NAME = "$version-$BUILD_NUMBER"
-                sh "docker build -t learnwithparth/spring-boot:$IMAGE_NAME ."
+                sh "docker build -t learnwithparth/spring-boot:$IMAGE_NAME ."}
             }
         }
       stage('test') {
