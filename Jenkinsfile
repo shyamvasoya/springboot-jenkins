@@ -1,3 +1,5 @@
+#!/usr/bin/env groovy
+
 pipeline {
     agent any
     environment {
@@ -31,14 +33,16 @@ pipeline {
         stage('build') {
             
             steps {
-                script
-                {echo 'building the application'
-                echo "Software version is ${NEW_VERSION}"
-                sh 'mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.nextMinorVersion}.\\\${parsedVersion.incrementalVersion}\\\${parsedVersion.qualifier?}'
-                sh 'mvn clean package'
-                def version = (readFile('pom.xml') =~ '<version>(.+)</version>')[0][1]
-                env.IMAGE_NAME = "$version-$BUILD_NUMBER"
-                sh "docker build -t learnwithparth/spring-boot:$IMAGE_NAME ."}
+                script{
+                    echo 'building the application'
+                    echo "Software version is ${NEW_VERSION}"
+                    sh 'mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.nextMinorVersion}.\\\${parsedVersion.incrementalVersion}\\\${parsedVersion.qualifier?}' 
+                    sh 'mvn clean package'
+                    def version = (readFile('pom.xml') =~ '<version>(.+)</version>')[0][1]
+                    env.IMAGE_NAME = "$version-$BUILD_NUMBER"
+                    sh "docker build -t learnwithparth/spring-boot:${IMAGE_NAME} ."
+                        
+                    }
             }
         }
       stage('test') {
@@ -48,8 +52,8 @@ pipeline {
              }
           }
             steps {
-                echo 'testing the application'
-                sh 'mvn test'
+                script{echo 'testing the application'
+                sh 'mvn test'}
             }
         }
       stage('deploy') {
@@ -62,28 +66,33 @@ pipeline {
 
         }
             steps {
-                echo 'deploying the application'
-                // sh 'wrong command'
-                //echo "${SERVER_CREDENTIALS}"
+                script{echo 'deploying the application'
                 withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-                    // echo "user is ${USERNAME}"
-                    // echo "Type is ${Type}"
                     sh "echo ${PASSWORD} | docker login -u ${USERNAME} --password-stdin"
-                    sh "docker push learnwithparth/spring-boot:$IMAGE_NAME"
-                }
+                    sh "docker push learnwithparth/spring-boot:${IMAGE_NAME}"
+                }}
                 
              }
         }
+        stage('commit version update'){
+            steps{
+                script{
+                    withCredentials([usernamePassword(credentialsId: 'git-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
+                        sh 'git config --global user.email "jenkins@example.com"'
+                        sh 'git config --global user.name "jenkins"'
+
+                        sh 'git status'
+                        sh 'git branch'
+                        sh 'git config --list'
+
+                        sh "git remote set-url origin https://${USERNAME}:${PASSWORD}@github.com/learnwithparth/springboot-jenkins.git"
+                        sh 'git add .'
+                        sh 'git commit -m "version change"'
+                        sh 'git push origin HEAD:jenkins-jobs'
+                    }
+                }
+            }
+        }
     }
-    post{
-        always{
-            echo 'Executing always..'
-        }
-        success{
-            echo 'Executing success'
-        }
-        failure{
-            echo 'Executing failure'
-        }
-    }
+    
 }
