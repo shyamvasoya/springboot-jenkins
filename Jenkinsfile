@@ -94,5 +94,15 @@ pipeline {
             }
         }
     }
-    
+    post{
+        always{
+            echo 'Executing always'
+        }
+        success{
+            echo 'Executing success'
+        }
+        failure{
+            echo 'Executing failure'
+        }
+    }
 }
