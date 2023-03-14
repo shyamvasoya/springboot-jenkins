@@ -41,8 +41,8 @@ pipeline {
                     sh 'mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.nextMinorVersion}.\\\${parsedVersion.incrementalVersion}\\\${parsedVersion.qualifier?}'
                     
                     sh 'mvn clean package'
-                    @NonCPS def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
-                    @NonCPS def version = matcher[0][1]
+                    def version = (readFile('pom.xml') =~ '<version>(.+)</version>')[0][1]
+                    //def version = matcher[0][1]
                         env.IMAGE_NAME = "$version-$BUILD_NUMBER"
                         sh "docker build -t learnwithparth/spring-boot:${IMAGE_NAME} ."
                         
