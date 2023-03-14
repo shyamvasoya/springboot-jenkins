@@ -31,14 +31,14 @@ pipeline {
         stage('build') {
             
             steps {
-                echo 'building the application'
+                script{echo 'building the application'
                 echo "Software version is ${NEW_VERSION}"
                 //sh 'mvn package'
                 
                 sh 'mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.nextMinorVersion}.\\\${parsedVersion.incrementalVersion}\\\${parsedVersion.qualifier?}'
                 sh 'mvn clean'
                 sh 'mvn package'
-                script{def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
+                def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
                 def version = matcher[0][1]
                 env.IMAGE_NAME = "$version-$BUILD_NUMBER"
                 sh "docker build -t learnwithparth/spring-boot:${IMAGE_NAME} ."}
@@ -51,8 +51,8 @@ pipeline {
              }
           }
             steps {
-                echo 'testing the application'
-                sh 'mvn test'
+                script{echo 'testing the application'
+                sh 'mvn test'}
             }
         }
       stage('deploy') {
@@ -65,7 +65,7 @@ pipeline {
 
         }
             steps {
-                echo 'deploying the application'
+                script{echo 'deploying the application'
                 // sh 'wrong command'
                 //echo "${SERVER_CREDENTIALS}"
                 withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
@@ -73,7 +73,7 @@ pipeline {
                     // echo "Type is ${Type}"
                     sh "echo ${PASSWORD} | docker login -u ${USERNAME} --password-stdin"
                     sh "docker push learnwithparth/spring-boot:${IMAGE_NAM}E"
-                }
+                }}
                 
              }
         }
