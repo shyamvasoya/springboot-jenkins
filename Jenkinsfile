@@ -77,7 +77,7 @@ pipeline {
                     // echo "user is ${USERNAME}"
                     // echo "Type is ${Type}"
                     sh "echo ${PASSWORD} | docker login -u ${USERNAME} --password-stdin"
-                    sh "docker push learnwithparth/spring-boot:${IMAGE_NAM}E"
+                    sh "docker push learnwithparth/spring-boot:${IMAGE_NAME}"
                 }}
                 
              }
