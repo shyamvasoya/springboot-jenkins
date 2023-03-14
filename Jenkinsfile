@@ -40,7 +40,7 @@ pipeline {
                 def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
                 def version = matcher[0][1]
                 env.IMAGE_NAME = "$version-$BUILD_NUMBER"
-                sh "docker build -t learnwithparth/spring-boot:$IMAGE_NAME ."
+                sh "docker build -t learnwithparth/spring-boot:${IMAGE_NAME} ."
             }
         }
       stage('test') {
@@ -71,7 +71,7 @@ pipeline {
                     // echo "user is ${USERNAME}"
                     // echo "Type is ${Type}"
                     sh "echo ${PASSWORD} | docker login -u ${USERNAME} --password-stdin"
-                    sh "docker push learnwithparth/spring-boot:$IMAGE_NAME"
+                    sh "docker push learnwithparth/spring-boot:${IMAGE_NAM}E"
                 }
                 
              }
