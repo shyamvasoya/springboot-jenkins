@@ -86,11 +86,12 @@ pipeline {
                         sh 'git branch'
                         sh 'git config --list'
 
-                        //sh "git remote set-url origin https://${USERNAME}:${encodedPassword}@github.com/learnwithparth/springboot-jenkins.git"
+                        sh "git remote set-url origin https://${USERNAME}:${encodedPassword}@github.com/learnwithparth/springboot-jenkins.git"
                         sh 'git add .'
                         sh 'git commit -m "version change"'
                         sh 'git push origin HEAD:master'
-                        //sh "git push https://${USERNAME}:${PASSWORD}@github.com/learnwithparth/springboot-jenkins.git"                     }
+                        //sh "git push https://${USERNAME}:${PASSWORD}@github.com/learnwithparth/springboot-jenkins.git"                     
+                        }
                 }
             }
         }
