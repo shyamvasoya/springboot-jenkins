@@ -74,24 +74,30 @@ pipeline {
                 
              }
         }
-        stage('commit version update'){
+        stage('Checkout') {
+            steps {
+                git branch: 'master', credentialsId: 'git-credentials', url: 'https://github.com/learnwithparth/springboot-jenkins.git'
+            }
+        }
+        stage('commit and push'){
             steps{
                 script{
-                    withCredentials([usernamePassword(credentialsId: 'git-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-                        def encodedPassword = URLEncoder.encode("$PASSWORD",'UTF-8')
-                        sh 'git config --global user.email "learnwithparth.in@gmail.com"'
-                        sh 'git config --global user.name "learnwithparth"'
+                    //withCredentials([usernamePassword(credentialsId: 'git-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
+                        //def encodedPassword = URLEncoder.encode("$PASSWORD",'UTF-8')
+                        // sh 'git config --global user.email "learnwithparth.in@gmail.com"'
+                        // sh 'git config --global user.name "learnwithparth"'
 
-                        sh 'git status'
-                        sh 'git branch'
-                        sh 'git config --list'
+                        // sh 'git status'
+                        // sh 'git branch'
+                        // sh 'git config --list'
 
                         //sh "git remote set-url origin https://${USERNAME}:${PASSWORD}@github.com/learnwithparth/springboot-jenkins.git"
+                        
                         sh 'git add .'
-                        sh 'git commit -m "version change"'
+                        sh 'git commit -m "version change updated"'
                         //sh 'git push origin HEAD:master'
-                        sh "git remote set-url --add --push origin https://${USERNAME}:${PASSWORD}@github.com/learnwithparth/springboot-jenkins.git"
-                        }
+                        sh "git push origin master"
+                        //}
                 }
             }
         }
