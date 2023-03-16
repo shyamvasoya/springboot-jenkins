@@ -16,6 +16,12 @@ pipeline {
     }
 
     stages {
+
+        stage('Checkout') {
+            steps {
+                git branch: 'master', credentialsId: 'git-credentials', url: 'https://github.com/learnwithparth/springboot-jenkins.git'
+            }
+        }
         stage('init'){
             steps{
                 script{
@@ -74,11 +80,7 @@ pipeline {
                 
              }
         }
-        stage('Checkout') {
-            steps {
-                git branch: 'master', credentialsId: 'git-credentials', url: 'https://github.com/learnwithparth/springboot-jenkins.git'
-            }
-        }
+
         stage('commit and push'){
             steps{
                 script{
@@ -87,13 +89,14 @@ pipeline {
                         // sh 'git config --global user.email "learnwithparth.in@gmail.com"'
                         // sh 'git config --global user.name "learnwithparth"'
 
-                        // sh 'git status'
+                        sh 'git status'
                         // sh 'git branch'
                         // sh 'git config --list'
 
                         //sh "git remote set-url origin https://${USERNAME}:${PASSWORD}@github.com/learnwithparth/springboot-jenkins.git"
                         
                         sh 'git add .'
+                        sh 'git status'
                         sh 'git commit -m "version change updated"'
                         //sh 'git push origin HEAD:master'
                         sh "git push origin master"
