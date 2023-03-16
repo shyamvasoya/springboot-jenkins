@@ -78,6 +78,7 @@ pipeline {
             steps{
                 script{
                     withCredentials([usernamePassword(credentialsId: 'git-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
+                        def encodedPassword = URLEncoder.encode("$PASSWORD",'UTF-8')
                         sh 'git config --global user.email "learnwithparth.in@gmail.com"'
                         sh 'git config --global user.name "learnwithparth"'
 
@@ -85,10 +86,11 @@ pipeline {
                         sh 'git branch'
                         sh 'git config --list'
 
-                        sh "git remote set-url origin \"https://${USERNAME}:${PASSWORD}@github.com/learnwithparth/springboot-jenkins.git\""
+                        //sh "git remote set-url origin https://${USERNAME}:${encodedPassword}@github.com/learnwithparth/springboot-jenkins.git"
                         sh 'git add .'
                         sh 'git commit -m "version change"'
-                        sh 'git push origin HEAD:jenkins-jobs'
+                        //sh 'git push origin HEAD:jenkins-jobs'
+                        sh "git push https://${USERNAME}:${encodedPassword}@github.com/learnwithparth/springboot-jenkins.git"
                     }
                 }
             }
