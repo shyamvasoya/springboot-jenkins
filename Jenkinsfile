@@ -15,7 +15,7 @@ pipeline {
         maven 'maven-3.9.0'
     }
 
-    // stages {
+    stages {
     //     stage('init'){
     //         steps{
     //             script{
