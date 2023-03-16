@@ -90,7 +90,7 @@ pipeline {
                         sh 'git add .'
                         sh 'git commit -m "version change"'
                         //sh 'git push origin HEAD:jenkins-jobs'
-                        sh "git push https://${USERNAME}:${encodedPassword}@github.com/learnwithparth/springboot-jenkins.git"
+                        sh "git push https://${USERNAME}:${encodedPassword}@github.com/learnwithparth/springboot-jenkins.git" HEAD:master
                     }
                 }
             }
