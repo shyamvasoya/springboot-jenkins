@@ -26,7 +26,7 @@ pipeline {
             steps{
                 script{
                     gv = load "script.groovy"
-                    sh "git clone https://github.com/learnwithparth/springboot-jenkins.git"
+                    //sh "git clone https://github.com/learnwithparth/springboot-jenkins.git"
                 }
             }
         }
