@@ -17,15 +17,16 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                git branch: 'master', credentialsId: 'git-credentials', url: 'https://github.com/learnwithparth/springboot-jenkins.git'
-            }
-        }
+        // stage('Checkout') {
+        //     steps {
+        //         git branch: 'master', credentialsId: 'git-credentials', url: 'https://github.com/learnwithparth/springboot-jenkins.git'
+        //     }
+        // }
         stage('init'){
             steps{
                 script{
                     gv = load "script.groovy"
+                    sh "git clone git@github.com:learnwithparth/springboot-jenkins.git"
                 }
             }
         }
