@@ -84,7 +84,7 @@ pipeline {
         stage('commit and push'){
             steps{
                 script{
-                    //withCredentials([usernamePassword(credentialsId: 'git-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
+                    withCredentials([usernamePassword(credentialsId: 'git-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
                         //def encodedPassword = URLEncoder.encode("$PASSWORD",'UTF-8')
                         sh 'git config --global user.email "learnwithparth.in@gmail.com"'
                         sh 'git config --global user.name "learnwithparth"'
@@ -101,7 +101,7 @@ pipeline {
                         //sh 'git push origin HEAD:master'
                         //sh "git push -u origin master"
                         sh "git push https://${USERNAME}@github.com/learnwithparth/springboot-jenkins.git"
-                        //}
+                        }
                 }
             }
         }
