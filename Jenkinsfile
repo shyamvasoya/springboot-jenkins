@@ -83,7 +83,7 @@ pipeline {
         stage('deploy'){
             steps{
                 script{
-                    def dockerRunCmd = 'sudo docker run -d -p 8080:8080 learnwithparth/spring-boot:null-59'
+                    def dockerRunCmd = "sudo service docker restart | sudo docker run -d -p 8080:8080 learnwithparth/spring-boot:${IMAGE_NAME}"
                   sshagent(['ec2-prod']) {
                         sh "ssh -o StrictHostKeyChecking=no ec2-user@54.237.0.178 ${dockerRunCmd}"
                     }  
