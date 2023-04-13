@@ -26,7 +26,7 @@ pipeline {
             steps{
                 script{
                     gv = load "script.groovy"
-                    //sh "git clone https://github.com/learnwithparth/springboot-jenkins.git"
+                    sh "git clone https://github.com/learnwithparth/springboot-jenkins.git"
                 }
             }
         }
@@ -63,14 +63,14 @@ pipeline {
             }
         }
       stage('push') {
-        // input{
-        //     message "Select the environment to deploy"
-        //     ok "done"
-        //     parameters{
-        //         choice(name: 'Type', choices:['Dev','Test','Deploy'], description: '')
-        //     }
+        input{
+            message "Select the environment to deploy"
+            ok "done"
+            parameters{
+                choice(name: 'Type', choices:['Dev','Test','Deploy'], description: '')
+            }
 
-        // }
+        }
             steps {
                 script{echo 'deploying the application'
                 withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
